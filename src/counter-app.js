@@ -41,6 +41,8 @@ export class counterApp extends DDDSuper(LitElement) {
     padding: 8px 16px;
     margin: 0 8px;
     text-align: center;
+    font-size: 48px;
+    margin-bottom: 16px;
     }
   
   
@@ -48,12 +50,13 @@ export class counterApp extends DDDSuper(LitElement) {
    font-size: 48px;
    margin-bottom: 16px;
   }
-    button {
+  button {
       padding: 8px 16px;
       margin: 0 8px;
       font-size: 24px;
+      
     }
-    button:disabled {
+  button:disabled {
       opacity: 0.5;
       cursor: not-allowed;
     }
@@ -62,12 +65,11 @@ export class counterApp extends DDDSuper(LitElement) {
 
   render() {
     return html`
-<div class="wrapper">
+<confetti-container id="confetti" class="wrapper">
   <button @click="${this.decrement}" ?disabled="${this.counter === this.min}">-</button>
   <button @click="${this.increment}" ?disabled="${this.counter === this.max}">+</button>
   <div class="counter">counter: ${this.counter}</div>
-  <confetti-container id="confetti"></confetti-container>
-</div>`;
+  </confetti-container>`;
   }
 
 
@@ -84,31 +86,23 @@ export class counterApp extends DDDSuper(LitElement) {
       this.counter -=1;
     }
   }
-  
-// for some reason everytime I tried to make the confetti work it would brick my counter app
- 
 
 
-//  updated(changedProperties) {
-//     if (changedProperties.has('counter')) {
-//       if (this.counter === 10){
-//         this.makeItRain();
-//       }
-//     }
-//   }
+ updated(changedProperties) {
+    if (changedProperties.has('counter')) {
+      if (this.counter === this.max){
+        this.makeItRain();
+      }
+    }
+  }
 
-//   makeItRain() {
-  
-//   import("@haxtheweb/multiple-choice/lib/confetti-container.js").then(
-//     (module) => {
-      
-//       setTimeout(() => {
-        
-//         this.shadowRoot.querySelector("#confetti").setAttribute("popped", "");
-//       }, 0);
-//     }
-//   );
-// }
+  makeItRain() {
+  import("@haxtheweb/multiple-choice/lib/confetti-container.js").then(() => {
+      setTimeout(() => {
+        this.shadowRoot.querySelector("#confetti").setAttribute("popped", "");
+      }, 0);
+    });
+}
 
   
 
